@@ -1,0 +1,17 @@
+- name: "Docker | Run cadvisor container"
+  docker_container:
+    name: "cadvisor"
+    image: "{{ cadvisor_image }}"
+    state: "started"
+    restart_policy: "unless-stopped"
+    container_default_behavior: "compatibility"
+    ports:
+      - "{{ cadvisor_port }}:8080"
+    volumes:
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/var/run:/var/run:ro"
+      - "/:/rootfs:ro"
+      - "/sys:/sys:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    command:
+      - "--docker_only=true"

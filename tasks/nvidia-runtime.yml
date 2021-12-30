@@ -1,0 +1,23 @@
+- name: "Docker | Nvidia | Add repository key"
+  apt_key:
+    url: "{{ item }}"
+    state: "present"
+  loop:
+  - "https://nvidia.github.io/libnvidia-container/gpgkey"
+
+- name: "Docker | Nvidia | Add repositories"
+  apt_repository:
+    repo: "deb {{ item }} /"
+    state: "present"
+  loop:
+  - "https://nvidia.github.io/libnvidia-container/stable/ubuntu{{ ansible_distribution_version }}/$(ARCH)"
+  - "https://nvidia.github.io/nvidia-container-runtime/stable/ubuntu{{ ansible_distribution_version }}/$(ARCH)"
+  - "https://nvidia.github.io/nvidia-docker/ubuntu{{ ansible_distribution_version }}/$(ARCH)"
+
+- name: "Docker | Nvidia | Install nvidia software"
+  apt:
+    name: "{{ item }}"
+    state: "present"
+  loop:
+  - "nvidia-container-runtime"
+  - "nvidia-docker2"

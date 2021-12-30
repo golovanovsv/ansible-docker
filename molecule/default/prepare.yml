@@ -1,0 +1,16 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+  - name: "Get ansible_distribution | Debug"
+    debug: msg="{{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+  - name: "Install software | molecule prepare"
+    apt:
+      name: "{{ item }}"
+      state: "present"
+      update_cache: true
+    loop:
+    - "net-tools"
+    - "iproute2"
+    when: ansible_pkg_mgr == "apt"

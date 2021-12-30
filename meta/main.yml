@@ -1,0 +1,20 @@
+galaxy_info:
+  role_name: "ansible-docker"
+  author: "GolovanovSV <golovanovsv@gmail.com>"
+  description: "An [Ansible](https://www.ansible.com) role to setup [Docker](https://www.docker.com/)"
+  license: MIT
+  min_ansible_version: 2.9
+  dependencies: []
+  platforms:
+  - name: Ubuntu
+    versions:
+    - bionic
+    - focal
+  - name: Debian
+    versions:
+    - bullseye
+    - buster
+    - stretch
+  galaxy_tags:
+  - ubuntu
+  - docker

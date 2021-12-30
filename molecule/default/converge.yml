@@ -1,0 +1,10 @@
+- name: Converge
+  hosts: all
+  tasks:
+  - name: "include ansible-docker vars"
+    include_vars:
+      file: "vars.yml"
+
+  - name: "docker"
+    import_role:
+      name: "docker"

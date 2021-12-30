@@ -1,0 +1,7 @@
+# Start container in DinD disabled
+# Old kernels in cluster starts with error:
+#  Error creating container: 500 Server Error for ... xino=/dev/shm/aufs.xino: invalid argument
+cadvisor_enabled: false
+cadvisor_port: "8081"
+
+proxy_server: "http://proxy.company.com:3128"

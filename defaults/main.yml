@@ -1,0 +1,40 @@
+# Версия docker-ce. Зависит от дистрибутива.
+# docker_version: ""
+
+# Массив с параметрами для /etc/docker/daemon.json
+docker_config:
+  # storage-driver: "overlay2"
+  log-driver: "json-file"
+  log-opts:
+    max-size: "200m"
+    max-file: "2"
+  # bip: "172.17.0.1/16"
+  # default-address-pools:
+  # - base: "172.18.0.0/16"
+  #   size: 24
+  # insecure-registries:
+  # - "private.docker.com:5000"
+  # - "private.google.com:8080"
+  # default-runtime: "nvidia"
+  # runtimes:
+  #   nvidia:
+  #     path: "nvidia-container-runtime"
+  #     runtimeArgs: []
+
+# nvidia runtime
+docker_nvidia_install: false
+
+# Параметры для работы docker через прокси
+# Если proxy_server пустая, то настройки не применяются
+# proxy_server: "http://squid.docker.com:3128"
+proxy_server: ""
+proxy_ignores:
+- 10.0.0.0/8
+- 172.16.0.0/12
+- 192.168.0.0/16
+
+# Мониторинг контейнеров
+cadvisor_enabled: false
+cadvisor_version: "latest"
+cadvisor_image: "gcr.io/google-containers/cadvisor:{{ cadvisor_version }}"
+cadvisor_port: "8080"

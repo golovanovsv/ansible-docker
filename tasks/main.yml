@@ -1,0 +1,16 @@
+- name: "Docker | Install docker"
+  import_tasks: "docker.yml"
+  tags:
+  - docker
+
+- name: "Docker | Install nvidia runtime"
+  import_tasks: "nvidia-runtime.yml"
+  when: docker_nvidia_install
+  tags:
+  - docker
+
+- name: "Docker | Start cadvisor"
+  import_tasks: "cadvisor.yml"
+  when: cadvisor_enabled
+  tags:
+  - docker

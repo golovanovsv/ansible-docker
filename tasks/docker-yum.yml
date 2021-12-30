@@ -1,0 +1,28 @@
+# Добавляем официальный репозиторий
+- name: "Docker | Add repository"
+  yum_repository:
+    name: "docker-ce"
+    baseurl: "https://download.docker.com/linux/centos/7/$basearch/stable"
+    gpgcheck: true
+    gpgkey: "https://download.docker.com/linux/centos/gpg"
+    description: Docker CE Stable
+
+- name: "Docker | Enable addons repo"
+  yum_repository:
+    name: "ol{{ ansible_distribution_major_version }}_addons"
+    baseurl: >-
+      https://yum$ociregion.oracle.com/repo/OracleLinux/OL{{ ansible_distribution_major_version }}/addons/$basearch/
+    gpgcheck: true
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle"
+    description: "Oracle Linux $releasever Add ons ($basearch)"
+
+# Установка docker
+- name: "Docker | Install docker-ce"
+  yum:
+    name:
+      - "container-selinux"
+      - "containerd.io"
+      - "{{ 'docker-ce' if docker_version is not defined else 'docker-ce='+docker_version }}"
+    state: present
+  vars:
+    ansible_python_interpreter: "/usr/bin/python2"

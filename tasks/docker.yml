@@ -1,0 +1,62 @@
+# Импоритируем сценарий установки в зависимости от пакетного менеджера
+- name: "Docker | import apt tasks"
+  import_tasks: "docker-apt.yml"
+  when: ansible_pkg_mgr == "apt"
+
+# Создаем каталог для конфигурации
+# Каталог создается автоматически при первом запуске docker, но существуют ОС где сервис
+# не запускается автоматически при установке
+- name: "Docker | Make configuration dir"
+  file:
+    path: "/etc/docker"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+# Настраиваем docker
+- name: "Docker | Make daemon.json"
+  template:
+    src: "daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+    mode: "0644"
+  notify: restart docker
+
+# Настраиваем прокси для docker
+- name: "Docker | proxy"
+  block:
+  - name: "Docker | proxy | make drop-in"
+    file:
+      path: "/lib/systemd/system/docker.service.d"
+      state: "directory"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+
+  - name: "Docker | proxy | make proxy config"
+    template:
+      src: "proxy.conf.j2"
+      dest: "/lib/systemd/system/docker.service.d/proxy.conf"
+      mode: "0644"
+    notify: restart docker
+  when: proxy_server
+
+# Удаляем настройки прокси для docker
+- name: "Docker | remove proxy"
+  file:
+    state: "absent"
+    path: "/lib/systemd/system/docker.service.d/proxy.conf"
+  when: not proxy_server
+  notify: restart docker
+
+# Принудительно запускаем сервис
+- name: "Docker | Start daemon"
+  service:
+    name: "docker"
+    state: "started"
+
+# Устанавливаем docker-compose из PIP
+- name: "Docker | Install docker-compose over PIP (latest version)"
+  pip:
+    name: "docker-compose"
+    state: present
