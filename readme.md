@@ -1,6 +1,6 @@
 # Ansible role: docker
 
-Проверьте [defaults](defaults/main.yaml) для базовых параматров, используемых в роли.
+Проверьте [defaults](defaults/main.yml) для базовых параматров, используемых в роли.
 
 ## Заметки по роли
 
