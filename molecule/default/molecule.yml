@@ -5,18 +5,28 @@ driver:
 # We are using yamllint directly in gitlab-ci
 # lint: "ansible-lint . --exclude .gitlab-ci.yml"
 platforms:
+  - name: ubuntu-2404
+    image: golovanovsv/ubuntu:24.04-systemd
+    command: /lib/systemd/systemd
+    pre_build_image: true
+    privileged: true
+  - name: ubuntu-2204
+    image: golovanovsv/ubuntu:22.04-systemd
+    command: /lib/systemd/systemd
+    pre_build_image: true
+    privileged: true
   - name: ubuntu-2004
     image: golovanovsv/ubuntu:20.04-systemd
     command: /lib/systemd/systemd
     pre_build_image: true
     privileged: true
-  - name: ubuntu-1804
-    image: golovanovsv/ubuntu:18.04-systemd
+  - name: debian-12
+    image: golovanovsv/debian:12-systemd
     command: /lib/systemd/systemd
     pre_build_image: true
     privileged: true
-  - name: debian-9
-    image: golovanovsv/debian:9-systemd
+  - name: debian-11
+    image: golovanovsv/debian:11-systemd
     command: /lib/systemd/systemd
     pre_build_image: true
     privileged: true

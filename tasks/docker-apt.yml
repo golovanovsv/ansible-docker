@@ -17,5 +17,7 @@
   apt:
     name:
       - "{{ 'docker-ce' if docker_version is not defined else 'docker-ce='+docker_version }}"
+      - docker-buildx-plugin
+      - docker-compose-plugin
     state: present
     update_cache: true

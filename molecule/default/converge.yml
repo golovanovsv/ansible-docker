@@ -7,4 +7,4 @@
 
   - name: "docker"
     import_role:
-      name: "docker"
+      name: "ansible-docker"

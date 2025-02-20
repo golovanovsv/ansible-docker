@@ -54,9 +54,3 @@
   service:
     name: "docker"
     state: "started"
-
-# Устанавливаем docker-compose из PIP
-- name: "Docker | Install docker-compose over PIP (latest version)"
-  pip:
-    name: "docker-compose"
-    state: present

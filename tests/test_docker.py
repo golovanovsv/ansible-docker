@@ -3,10 +3,15 @@ import pytest
 
 @pytest.fixture()
 def AnsibleVars(host):
-  default_vars = host.ansible("include_vars", "file=defaults/main.yml")["ansible_facts"]
-  test_vars = host.ansible("include_vars", "file=molecule/default/vars.yml")["ansible_facts"]
+  default_vars = host.ansible("include_vars", "file=../../defaults/main.yml")["ansible_facts"]
+  test_vars = host.ansible("include_vars", "file=../../molecule/default/vars.yml")["ansible_facts"]
   merged_vars = { **default_vars, **test_vars }
   return merged_vars
+
+def test_service_is_installed(host):
+  assert host.package("docker-ce").is_installed
+  assert host.package("docker-compose-plugin").is_installed
+  assert host.package("docker-buildx-plugin").is_installed
 
 def test_service_is_enabled(host):
   assert host.service("docker").is_enabled
@@ -41,10 +46,4 @@ def test_docker_config_proxy_content(host, AnsibleVars):
 def test_docker_socket_is_listening(host):
   # testinfra производит проверку при помощи ss/netstat, а у некоторых дистрибутивов /var/run/docker.sock
   #   является хардлинком на /run/docker.sock
-  # Так же assert host.socket("unix:///var/run/docker.sock").is_listening or host.socket("unix:///run/docker.sock").is_listening
-  #   не работает для ubuntu-1804 поэтому просто проверим, что /var/run/docker.sock есть и это сокет :/
-  assert host.file("/var/run/docker.sock").is_socket
-
-def test_docker_compose_installed(host):
-  packages = host.pip.get_packages()
-  assert "docker-compose" in packages
+  assert host.socket("unix:///run/docker.sock").is_listening

@@ -1,5 +1,6 @@
 galaxy_info:
-  role_name: "ansible-docker"
+  role-name: "docker"
+  namespace: golovanovsv
   author: "GolovanovSV <golovanovsv@gmail.com>"
   description: "An [Ansible](https://www.ansible.com) role to setup [Docker](https://www.docker.com/)"
   license: MIT
@@ -8,13 +9,14 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
-    - bionic
+    - noble
+    - jammy
     - focal
   - name: Debian
     versions:
+    - bookworm
     - bullseye
     - buster
-    - stretch
   galaxy_tags:
   - ubuntu
   - docker
